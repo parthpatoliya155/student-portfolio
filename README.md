@@ -1,216 +1,60 @@
-# 🎓 Student Portfolio - Parth Patoliya
+# Student Portfolio - Practical 2: State Management and Routing in React
 
-Welcome to my **Student Portfolio** project built using **React** and **Vite**. This project was developed as part of **Practical 1 – Introduction to React and Component Architecture** for the **Advanced Web Development Frameworks** course.
+An extended version of the B.Tech Student Portfolio web application, implementing client-side routing, React state management, theme customization, controlled form validation, and error boundaries.
 
-The application showcases my profile, education, technical skills, projects, and contact information using reusable React components and a modern responsive user interface.
+## Features Implemented
 
----
+### 1. Client-Side Routing (`react-router-dom` v6)
+- Wrapped the app in `<BrowserRouter>` within [main.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/main.jsx).
+- Defined multi-page navigation routes in [App.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/App.jsx) using `<Routes>` and `<Route>`.
+- Replaced standard anchor tags (`<a>`) in [Navbar.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Navbar.jsx) and [Header.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Header.jsx) with `<NavLink>` and `<Link>` to transition pages seamlessly without full browser reloads.
+- **Active Navigation Indicator**: Utilized NavLink's callback pattern to apply dynamic styling highlights to active sections.
 
-# ✨ Features
+### 2. Multi-Page Routes
+- **Home Route (`/`)**: Renders the core portfolio sections ([Hero.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Hero.jsx), [About.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/About.jsx), [Skills.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Skills.jsx), and [Education.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Education.jsx)) combined in a single [Home.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Home.jsx) component.
+- **Projects Route (`/projects`)**: Displays academic projects ([Projects.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Projects.jsx)) dynamically with badge tags and action buttons.
+- **Contact Route (`/contact`)**: Renders a dedicated contact form page with advanced state validation.
+- **404 Not Found Route (`*`)**: Renders a custom space-themed fallback page ([NotFound.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/NotFound.jsx)) for undefined routing paths.
 
-- ⚛️ Built with **React + Vite**
-- 📱 Fully Responsive Design
-- 🧩 Reusable Functional Components
-- 🎯 Component-Based Architecture
-- 🔄 Dynamic Data Rendering using **Props**
-- 📋 Skills rendered dynamically using the **map()** method
-- 🎨 Modern Dark Theme with Gradient UI
-- ✨ Smooth Hover Effects & Animations
-- 📂 Clean and Beginner-Friendly Code Structure
-
----
-
-# 🛠️ Technologies Used
-
-- React
-- Vite
-- JavaScript (ES6+)
-- JSX
-- HTML5
-- CSS3
-- Flexbox & CSS Grid
+### 3. State Management Hooks (`useState` / `useEffect`)
+- **Dark/Light Mode Theme Toggle**:
+  - Controlled by a state variable `theme` in [App.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/App.jsx).
+  - Syncs the theme class name (`light` / `dark`) with the document HTML root node `document.documentElement` and persists the selection in `localStorage`.
+  - Added CSS design tokens and smooth transitions inside [index.css](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/index.css) and [App.css](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/App.css).
+- **Controlled Contact Inputs**:
+  - Implements state hook values for `name`, `email`, and `message` in [Contact.jsx](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/student-portfolio/src/components/Contact.jsx).
+  - **Live Preview Display**: Renders typed messages in real-time beneath input controls.
+  - **Live Character Counter**: Tracks character length of the message box dynamically (up to 500 characters) and triggers warning styling as it nears constraints.
+- **UI Visibility Toggle**:
+  - State hook toggles a help tooltip box explaining form validation rules and data handling.
 
 ---
 
-# 📂 Project Structure
+## Getting Started
 
-```text
-student-portfolio
-│
-├── public
-├── src
-│   ├── components
-│   │   ├── Header.jsx
-│   │   ├── Navbar.jsx
-│   │   ├── Hero.jsx
-│   │   ├── About.jsx
-│   │   ├── Skills.jsx
-│   │   ├── Education.jsx
-│   │   ├── Projects.jsx
-│   │   └── Footer.jsx
-│   │
-│   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
-│   └── main.jsx
-│
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
-```
+### Prerequisites
+- Node.js (v18+)
+- npm
+
+### Installation & Run
+
+1. Clone or navigate to the repository directory.
+2. Install the necessary package dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the Vite local development server:
+   ```bash
+   npm run dev
+   ```
+4. Build the application for production release:
+   ```bash
+   npm run build
+   ```
 
 ---
 
-# 🏗️ Component Architecture
-
-The application is divided into reusable React components.
-
-- **Header** – Displays the portfolio title and navigation bar.
-- **Navbar** – Provides smooth navigation between sections.
-- **Hero** – Introduces the portfolio with name, title, and call-to-action buttons.
-- **About** – Displays personal information and career goals.
-- **Skills** – Dynamically renders technical skills using props.
-- **Education** – Shows educational details.
-- **Projects** – Displays project cards.
-- **Footer** – Contains contact information and social links.
-
----
-
-# ⚛️ React Concepts Used
-
-This project demonstrates the following React concepts:
-
-- Functional Components
-- JSX Syntax
-- Props
-- Component Composition
-- Reusable Components
-- Dynamic Rendering using `map()`
-- Responsive UI Design
-
----
-
-# 👨‍💻 About Me
-
-**Name:** Parth Patoliya
-
-**Course:** B.Tech Information Technology
-
-**University:** CHARUSAT University
-
-I am a passionate Information Technology student with a strong interest in **Web Development**, **Artificial Intelligence**, **Machine Learning**, and **Data Science**.
-
-I enjoy building modern web applications, solving programming problems, and learning new technologies. My long-term goal is to become an **AI Engineer** and eventually build my own technology startup.
-
----
-
-# 💻 Technical Skills
-
-- HTML5
-- CSS3
-- JavaScript
-- React
-- Vite
-- Bootstrap
-- Tailwind CSS
-- Node.js
-- Express.js
-- MongoDB
-- Git & GitHub
-- Python
-- Java
-- C++
-- SQL
-- MySQL
-- Oracle Database
-- Linux (Ubuntu)
-
----
-
-# 🚀 Projects
-
-- 🎬 BookMyShow using AI
-- ⚽ BOOKMYTURF
-- 🗳️ Smart Digital Voting System using Face Recognition & OTP
-- 🏙️ Smart City using Digital Electronics
-
----
-
-# ▶️ Getting Started
-
-## Prerequisites
-
-Install the latest **Node.js LTS** version.
-
-Verify installation:
-
-```bash
-node -v
-npm -v
-```
-
----
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-```
-
-Go to the project directory:
-
-```bash
-cd student-portfolio
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-Open your browser and visit:
-
-```text
-http://localhost:5173
-```
-
----
-
-# 📦 Production Build
-
-Create an optimized production build:
-
-```bash
-npm run build
-```
-
-The production files will be generated inside the **dist/** folder.
-
----
-
-# 🎯 Learning Outcomes
-
-Through this project, I learned:
-
-- Setting up a React project using Vite
-- Creating reusable React components
-- Passing data using Props
-- Component Composition
-- Building responsive user interfaces
-- Organizing code using a modular architecture
-
----
-
-# 📄 License
-
-This project is developed for educational purposes as part of the **Advanced Web Development Frameworks** practical coursework at **CHARUSAT University**.
+## Developer Details
+- **Student Name**: Parth Patoliya
+- **College/Affiliation**: CHARUSAT University
+- **Course**: Advanced Web Development Frameworks (ITUE301)

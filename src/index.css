@@ -1,0 +1,138 @@
+/* 
+  index.css
+  Global Stylesheet & Design System
+  Author: Parth Patoliya | Student Portfolio
+*/
+
+:root {
+  /* Premium Dark Theme Color Palette */
+  --bg-color: #0b0f19;          /* Deep slate navy space background */
+  --bg-card: rgba(30, 41, 59, 0.4);  /* Translucent card background */
+  --bg-card-hover: rgba(30, 41, 59, 0.7);
+  --primary-color: #6366f1;     /* Indigo primary */
+  --primary-glow: rgba(99, 102, 241, 0.15);
+  --secondary-color: #a855f7;   /* Purple secondary */
+  --accent-color: #14b8a6;      /* Teal/Cyan accent */
+  --text-primary: #f8fafc;      /* Pure slate white */
+  --text-secondary: #94a3b8;    /* Muted slate text */
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-glow: rgba(99, 102, 241, 0.3);
+  --bg-glow-1: rgba(99, 102, 241, 0.05);
+  --bg-glow-2: rgba(168, 85, 247, 0.05);
+  
+  /* Dynamic Header/Footer and Interactive UI Elements variables */
+  --header-bg: rgba(11, 15, 25, 0.75);
+  --header-border: rgba(255, 255, 255, 0.06);
+  --footer-bg: rgba(11, 15, 25, 0.9);
+  --btn-secondary-border: rgba(255, 255, 255, 0.15);
+  --btn-secondary-bg-hover: rgba(255, 255, 255, 0.05);
+  --input-bg: rgba(255, 255, 255, 0.03);
+  --input-bg-focus: rgba(255, 255, 255, 0.06);
+  --tag-bg: rgba(255, 255, 255, 0.05);
+  --tag-border: rgba(255, 255, 255, 0.08);
+
+  /* Typography & Layout defaults */
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --max-width: 1200px;
+}
+
+:root.light {
+  /* Premium Light Theme Color Palette */
+  --bg-color: #f8fafc;          /* Muted, cleaner slate grey background */
+  --bg-card: rgba(255, 255, 255, 0.85);  /* Clean white container card */
+  --bg-card-hover: rgba(255, 255, 255, 0.98);
+  --primary-color: #4f46e5;     /* Darker Indigo primary for readability */
+  --primary-glow: rgba(79, 70, 229, 0.1);
+  --secondary-color: #9333ea;   /* Purple secondary */
+  --accent-color: #0d9488;      /* Teal/Cyan accent */
+  --text-primary: #0f172a;      /* Deep dark slate text */
+  --text-secondary: #475569;    /* Muted slate text for readability */
+  --border-color: rgba(15, 23, 42, 0.08);
+  --border-glow: rgba(79, 70, 229, 0.15);
+  --bg-glow-1: rgba(79, 70, 229, 0.03);
+  --bg-glow-2: rgba(147, 51, 234, 0.03);
+
+  /* Dynamic Header/Footer and Interactive UI Elements variables for light mode */
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --header-border: rgba(15, 23, 42, 0.08);
+  --footer-bg: rgba(255, 255, 255, 0.9);
+  --btn-secondary-border: rgba(15, 23, 42, 0.18);
+  --btn-secondary-bg-hover: rgba(79, 70, 229, 0.06);
+  --input-bg: rgba(15, 23, 42, 0.02);
+  --input-bg-focus: rgba(255, 255, 255, 1);
+  --tag-bg: rgba(15, 23, 42, 0.04);
+  --tag-border: rgba(15, 23, 42, 0.06);
+}
+
+/* Global Reset & Base Elements */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 10% 20%, var(--bg-glow-1) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, var(--bg-glow-2) 0%, transparent 40%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+/* Typography Helpers */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-smooth);
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Custom Selection Color */
+::selection {
+  background: var(--primary-color);
+  color: #fff;
+}
