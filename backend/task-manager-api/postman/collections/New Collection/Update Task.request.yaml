@@ -1,0 +1,26 @@
+$kind: http-request
+name: Update Task
+url: http://localhost:5000/tasks/2
+method: PUT
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Build a Node/Express API (Completed)",
+      "completed": true
+    }
+order: 4000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", () => {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Task updated correctly", () => {
+          var data = pm.response.json();
+          pm.expect(data.id).to.eql(2);
+          pm.expect(data.completed).to.eql(true);
+      });

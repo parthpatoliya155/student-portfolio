@@ -8,10 +8,10 @@
 */
 
 import React from 'react';
-import Hero from './Hero';
-import About from './About';
-import Skills from './Skills';
-import Education from './Education';
+import Hero from '../components/Hero';
+import About from '../components/About';
+import Skills from '../components/Skills';
+import Education from '../components/Education';
 
 function Home({ portfolioData }) {
   return (

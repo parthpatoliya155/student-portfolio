@@ -1,0 +1,15 @@
+$kind: http-request
+name: Get Task - Non-existent ID
+url: http://localhost:5000/tasks/99
+method: GET
+order: 3500
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 404", () => {
+          pm.response.to.have.status(404);
+      });
+      pm.test("Returns not found message", () => {
+          var data = pm.response.json();
+          pm.expect(data.error).to.include("not found");
+      });

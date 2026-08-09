@@ -1,0 +1,27 @@
+$kind: http-request
+name: Create Task
+url: http://localhost:5000/tasks
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Write Maturity Report",
+      "completed": false
+    }
+order: 2000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 201", () => {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Task created has correct title", () => {
+          var data = pm.response.json();
+          pm.expect(data.title).to.eql("Write Maturity Report");
+          pm.expect(data.completed).to.eql(false);
+          pm.expect(data.id).to.exist;
+      });

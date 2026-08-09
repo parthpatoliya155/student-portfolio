@@ -1,0 +1,15 @@
+$kind: http-request
+name: Trigger Server Error
+url: http://localhost:5000/trigger-error
+method: GET
+order: 6000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 500", () => {
+          pm.response.to.have.status(500);
+      });
+      pm.test("Masks internal stack trace details", () => {
+          var data = pm.response.json();
+          pm.expect(data.error).to.eql("Something went wrong");
+      });

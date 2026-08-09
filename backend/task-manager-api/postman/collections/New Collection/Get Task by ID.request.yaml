@@ -1,0 +1,17 @@
+$kind: http-request
+name: Get Task by ID
+url: http://localhost:5000/tasks/1
+method: GET
+order: 3000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", () => {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Task has expected properties", () => {
+          var data = pm.response.json();
+          pm.expect(data.id).to.eql(1);
+          pm.expect(data.title).to.eql("Learn HTML/CSS");
+          pm.expect(data.completed).to.eql(true);
+      });

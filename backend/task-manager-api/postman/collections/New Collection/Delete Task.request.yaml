@@ -1,0 +1,16 @@
+$kind: http-request
+name: Delete Task
+url: http://localhost:5000/tasks/2
+method: DELETE
+order: 5000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", () => {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Task deleted successfully message", () => {
+          var data = pm.response.json();
+          pm.expect(data.message).to.eql("Task deleted successfully");
+          pm.expect(data.task.id).to.eql(2);
+      });

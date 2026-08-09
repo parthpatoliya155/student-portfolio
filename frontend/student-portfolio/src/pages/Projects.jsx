@@ -8,10 +8,10 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import RepoCard from './RepoCard';
-import SearchBar from './SearchBar';
-import LoadingSpinner from './LoadingSpinner';
-import ErrorMessage from './ErrorMessage';
+import RepoCard from '../components/RepoCard';
+import SearchBar from '../components/SearchBar';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
 
 // Configurable GitHub Username - Change this to fetch projects from another user
 const GITHUB_USERNAME = 'parthpatoliya155';
