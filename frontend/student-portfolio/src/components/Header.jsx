@@ -12,8 +12,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 
-// Functional component receiving 'name', 'theme', and 'toggleTheme' as props
-function Header({ name, theme, toggleTheme }) {
+// Functional component receiving 'name', 'theme', 'toggleTheme', 'user', and 'onLogout' as props
+function Header({ name, theme, toggleTheme, user, onLogout }) {
   return (
     <header className="header" id="header">
       <div className="container header-container">
@@ -24,7 +24,7 @@ function Header({ name, theme, toggleTheme }) {
 
         {/* Header Actions containing Navbar and Theme Toggle */}
         <div className="header-actions">
-          <Navbar />
+          <Navbar user={user} onLogout={onLogout} />
           
           <button 
             className="theme-toggle-btn" 

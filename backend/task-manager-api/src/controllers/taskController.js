@@ -1,19 +1,19 @@
 const Task = require('../models/Task');
 
-// GET /tasks - Get all tasks
+// GET /tasks - Get all tasks for the logged-in user
 exports.getAllTasks = async (req, res, next) => {
     try {
-        const tasks = await Task.find();
+        const tasks = await Task.find({ user: req.user.id });
         res.status(200).json(tasks);
     } catch (err) {
         next(err);
     }
 };
 
-// GET /tasks/:id - Get a single task by ID
+// GET /tasks/:id - Get a single task by ID for the logged-in user
 exports.getTaskById = async (req, res, next) => {
     try {
-        const task = await Task.findById(req.params.id);
+        const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
         if (!task) {
             return res.status(404).json({ 
                 error: `Task with ID ${req.params.id} not found` 
@@ -25,7 +25,7 @@ exports.getTaskById = async (req, res, next) => {
     }
 };
 
-// POST /tasks - Create a new task
+// POST /tasks - Create a new task scoped to the logged-in user
 exports.createTask = async (req, res, next) => {
     try {
         const { title, description, completed, priority } = req.body;
@@ -34,7 +34,8 @@ exports.createTask = async (req, res, next) => {
             title,
             description,
             completed,
-            priority
+            priority,
+            user: req.user.id
         });
 
         const savedTask = await newTask.save();
@@ -44,12 +45,12 @@ exports.createTask = async (req, res, next) => {
     }
 };
 
-// PUT /tasks/:id - Update an existing task
+// PUT /tasks/:id - Update an existing task for the logged-in user
 exports.updateTask = async (req, res, next) => {
     try {
         const { title, description, completed, priority } = req.body;
         
-        const task = await Task.findById(req.params.id);
+        const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
         if (!task) {
             return res.status(404).json({ 
                 error: `Task with ID ${req.params.id} not found` 
@@ -68,10 +69,10 @@ exports.updateTask = async (req, res, next) => {
     }
 };
 
-// DELETE /tasks/:id - Delete a task by ID
+// DELETE /tasks/:id - Delete a task by ID for the logged-in user
 exports.deleteTask = async (req, res, next) => {
     try {
-        const deletedTask = await Task.findByIdAndDelete(req.params.id);
+        const deletedTask = await Task.findOneAndDelete({ _id: req.params.id, user: req.user.id });
         if (!deletedTask) {
             return res.status(404).json({ 
                 error: `Task with ID ${req.params.id} not found` 

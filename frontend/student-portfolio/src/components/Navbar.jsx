@@ -9,9 +9,10 @@
 */
 
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ user, onLogout }) {
+  const navigate = useNavigate();
   // State to track if the mobile navigation menu is open
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +24,12 @@ function Navbar() {
   // Close mobile menu when a navigation item is clicked
   const handleLinkClick = () => {
     setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    onLogout();
+    setIsOpen(false);
+    navigate('/');
   };
 
   return (
@@ -66,9 +73,36 @@ function Navbar() {
             Contact
           </NavLink>
         </li>
+
+        {/* Conditional Auth Actions */}
+        {user ? (
+          <li className="nav-auth-item">
+            <span className="nav-user-badge" title={user.email}>
+              👤 {user.email?.split('@')[0]}
+            </span>
+            <button
+              type="button"
+              className="nav-logout-btn"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </li>
+        ) : (
+          <li>
+            <NavLink
+              to="/login"
+              className={({ isActive }) => `nav-link nav-login-btn ${isActive ? 'active' : ''}`}
+              onClick={handleLinkClick}
+            >
+              Login
+            </NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );
 }
 
 export default Navbar;
+

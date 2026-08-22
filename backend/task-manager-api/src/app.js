@@ -5,6 +5,7 @@ const logger = require('./middleware/logger');
 const contentTypeChecker = require('./middleware/contentTypeChecker');
 const errorHandler = require('./middleware/errorHandler');
 const taskRoutes = require('./routes/taskRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -24,7 +25,10 @@ app.use(express.json());
 // 4. Serve static frontend for diagnostic testing
 app.use(express.static(path.join(__dirname, '../public')));
 
-// 5. RESTful API Routes
+// 5. Auth Routes (Register/Login)
+app.use('/auth', authRoutes);
+
+// 6. RESTful API Routes
 app.use('/tasks', taskRoutes);
 
 // 6. Diagnostic error-trigger route
