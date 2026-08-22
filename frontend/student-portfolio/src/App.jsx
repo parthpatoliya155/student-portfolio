@@ -9,14 +9,15 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
-import Projects from './pages/Projects';
+import Tasks from './pages/Tasks';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import './App.css';
+
 
 function App() {
   // Main portfolio data object containing student information
@@ -87,8 +88,11 @@ function App() {
           {/* Home Route: Aggregates Hero, About, Skills, and Education sections */}
           <Route path="/" element={<Home portfolioData={portfolioData} />} />
           
-          {/* Projects Route: Renders the dedicated projects gallery section */}
-          <Route path="/projects" element={<Projects />} />
+          {/* Tasks Route: Renders the central full-stack tasks manager dashboard */}
+          <Route path="/tasks" element={<Tasks />} />
+          
+          {/* Redirect /projects to /tasks for seamless migration */}
+          <Route path="/projects" element={<Navigate to="/tasks" replace />} />
           
           {/* Contact Route: Controlled input form with real-time feedback and tooltip toggles */}
           <Route path="/contact" element={<Contact />} />

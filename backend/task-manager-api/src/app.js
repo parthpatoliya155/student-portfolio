@@ -1,11 +1,16 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const logger = require('./middleware/logger');
 const contentTypeChecker = require('./middleware/contentTypeChecker');
 const errorHandler = require('./middleware/errorHandler');
 const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
+
+// Enable CORS for frontend requests
+app.use(cors());
+
 
 // 1. Global Logging Middleware
 app.use(logger);

@@ -50,11 +50,11 @@ function Navbar() {
         </li>
         <li>
           <NavLink 
-            to="/projects" 
+            to="/tasks" 
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             onClick={handleLinkClick}
           >
-            Projects
+            Tasks
           </NavLink>
         </li>
         <li>
