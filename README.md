@@ -108,3 +108,14 @@ Ensure MongoDB is running locally on your machine at `mongodb://localhost:27017/
    - **Delete**: Click the "Delete" button, and verify the confirmation modal.
    - **Persistence**: Refresh the browser page; all tasks will load dynamically from MongoDB.
 
+---
+
+## Practical 8: Performance Optimization and Lazy Loading
+
+Practical 8 implements route-based code splitting and on-demand component loading to minimize initial bundle size and boost frontend performance.
+
+* **Route Code Splitting**: Main views (`Home`, `Projects`, `Tasks`, `Auth`, `Contact`, `NotFound`) are wrapped in `React.lazy()` and `<Suspense>`.
+* **Supplementary Optimization**: The heavy `TaskAnalytics` component inside the Tasks dashboard is lazy-loaded on-demand when requested by the user.
+* **Fallback UI**: A glassmorphic `RouteFallback` indicator provides visual feedback while chunks load.
+* **Full Documentation & Before/After Metrics**: See [PRACTICAL_8_REPORT.md](file:///d:/sem_4/AWDF/PRACTICAL/prc_1/frontend/student-portfolio/PRACTICAL_8_REPORT.md).
+

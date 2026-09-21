@@ -7,13 +7,16 @@
   It handles optimistic UI updates, filters, search, and loading/error states.
 */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { getTasks, createTask, updateTask, deleteTask } from '../services/api';
 import SearchBar from '../components/SearchBar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import ConfirmationModal from '../components/ConfirmationModal';
 import Toast from '../components/Toast';
+
+// Supplementary Task: Component-level code splitting for heavy analytics dashboard
+const TaskAnalytics = lazy(() => import('../components/TaskAnalytics'));
 
 function Tasks() {
   // 1. Core States for Backend Operations
@@ -32,11 +35,12 @@ function Tasks() {
   const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'active' | 'completed'
   const [priorityFilter, setPriorityFilter] = useState('all'); // 'all' | 'high' | 'medium' | 'low'
 
-  // 4. Modal and Toast Alert States
+  // 4. Modal, Toast Alert, and Analytics Toggle States
   const [modalOpen, setModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState('success'); // 'success' | 'error' | 'info'
+  const [showAnalytics, setShowAnalytics] = useState(false); // Supplementary: Lazy-loaded analytics toggle
 
   // Trigger floating toast notifications
   const showToast = (message, type = 'success') => {
@@ -276,6 +280,33 @@ function Tasks() {
             message={error} 
             onRetry={fetchTasksList} 
           />
+        )}
+
+        {/* Supplementary: Lazy Analytics & Metrics Toggle */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setShowAnalytics(prev => !prev)}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.75rem 1.5rem', borderRadius: '12px' }}
+          >
+            <span>{showAnalytics ? '🙈 Hide Performance Analytics' : '📊 View Task Analytics & Insights (Lazy Loaded)'}</span>
+            <span style={{ fontSize: '0.75rem', background: 'rgba(99, 102, 241, 0.2)', color: '#818cf8', padding: '2px 8px', borderRadius: '999px' }}>
+              Code Split
+            </span>
+          </button>
+        </div>
+
+        {/* Dynamic Suspense block for Supplementary Component */}
+        {showAnalytics && (
+          <Suspense fallback={
+            <div className="analytics-loading-placeholder">
+              <div className="analytics-placeholder-spinner"></div>
+              <span>Fetching dynamic analytics chunk...</span>
+            </div>
+          }>
+            <TaskAnalytics tasks={tasks} />
+          </Suspense>
         )}
 
         {!error && (

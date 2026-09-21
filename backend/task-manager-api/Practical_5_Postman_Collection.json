@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "8c5c7d23-2895-46f0-a15b-5f3333333333",
+		"name": "Practical 5: Task Manager API",
+		"description": "Postman collection to test Mongoose CRUD and schema validations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /tasks - Get All Tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /tasks - Create Task (Valid)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"  Write Practical 5 Documentation  \",\n  \"description\": \"Include screenshots of Postman tests\",\n  \"completed\": false,\n  \"priority\": \"high\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /tasks - Create Task (Empty Title Error)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"   \",\n  \"description\": \"Should fail mongoose validations\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /tasks - Create Task (Invalid Priority Error)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Test valid title\",\n  \"priority\": \"critical\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /tasks/:id - Get Task by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks/PASTE_CREATED_TASK_ID_HERE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"PASTE_CREATED_TASK_ID_HERE"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /tasks/:id - Get Task (Invalid ID Format Error)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks/abc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /tasks/:id - Get Task (Non-existent ID 404 Error)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks/60d5ec48fcf24b2f28b45a60",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"60d5ec48fcf24b2f28b45a60"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /tasks/:id - Update Task",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Finish Practical 5 PDF\",\n  \"completed\": true,\n  \"priority\": \"low\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks/PASTE_CREATED_TASK_ID_HERE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"PASTE_CREATED_TASK_ID_HERE"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /tasks/:id - Delete Task",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks/PASTE_CREATED_TASK_ID_HERE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"PASTE_CREATED_TASK_ID_HERE"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /trigger-error - Trigger 500 Error",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/trigger-error",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"trigger-error"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

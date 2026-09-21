@@ -57,6 +57,15 @@ function Navbar({ user, onLogout }) {
         </li>
         <li>
           <NavLink 
+            to="/projects" 
+            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+            onClick={handleLinkClick}
+          >
+            Projects
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
             to="/tasks" 
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
             onClick={handleLinkClick}
