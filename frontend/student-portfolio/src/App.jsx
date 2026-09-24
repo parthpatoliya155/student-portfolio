@@ -15,8 +15,9 @@ import Footer from './components/Footer';
 import RouteFallback from './components/RouteFallback';
 import './App.css';
 
-// Route-based Code Splitting: Dynamically import page components on-demand
-const Home = lazy(() => import('./pages/Home'));
+import Home from './pages/Home';
+
+// Route-based Code Splitting: Dynamically import auxiliary page components on-demand
 const Projects = lazy(() => import('./pages/Projects'));
 const Tasks = lazy(() => import('./pages/Tasks'));
 const Auth = lazy(() => import('./pages/Auth'));

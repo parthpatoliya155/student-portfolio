@@ -9,6 +9,7 @@
 */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Functional component receiving name, title, and college as props
 function Hero({ name, title, college }) {
@@ -37,6 +38,7 @@ function Hero({ name, title, college }) {
               strokeWidth="2" 
               strokeLinecap="round" 
               strokeLinejoin="round"
+              aria-hidden="true"
             >
               <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
               <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
@@ -45,12 +47,12 @@ function Hero({ name, title, college }) {
           </div>
 
           <div className="hero-cta">
-            <a href="#projects" className="btn btn-primary">
+            <Link to="/projects" className="btn btn-primary" aria-label="View Parth Patoliya's Projects">
               View My Work
-            </a>
-            <a href="#contact" className="btn btn-secondary">
+            </Link>
+            <Link to="/contact" className="btn btn-secondary" aria-label="Contact Parth Patoliya">
               Contact Me
-            </a>
+            </Link>
           </div>
         </div>
 
