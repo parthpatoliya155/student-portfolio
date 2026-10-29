@@ -9,7 +9,6 @@
   and the dynamic copyright note.
 */
 
-import React from 'react';
 
 // Functional component receiving 'name' as a prop
 function Footer({ name }) {

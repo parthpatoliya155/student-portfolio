@@ -7,7 +7,7 @@
   utilizing the GitHub REST API, while showcasing loading/error states and a search filter.
 */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import RepoCard from '../components/RepoCard';
 import SearchBar from '../components/SearchBar';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -42,7 +42,7 @@ function Projects() {
   ];
 
   // 3. Fetch function to request repos from GitHub REST API
-  const fetchRepositories = () => {
+  const fetchRepositories = useCallback(() => {
     setLoading(true);
     setError(null);
     
@@ -68,11 +68,41 @@ function Projects() {
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, []);
 
   // 4. Trigger fetch once on mount
   useEffect(() => {
-    fetchRepositories();
+    let ignore = false;
+    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!ignore) {
+          if (Array.isArray(data)) {
+            setRepos(data);
+          } else {
+            throw new Error("Unexpected response structure from the GitHub API.");
+          }
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(err.message || "Failed to load repositories. Please check your connection.");
+        }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // 5. Filter repositories in real-time based on search input

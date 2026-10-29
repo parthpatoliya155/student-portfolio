@@ -8,7 +8,6 @@
   with dates, scores, and key course listings.
 */
 
-import React from 'react';
 
 function Education() {
   return (

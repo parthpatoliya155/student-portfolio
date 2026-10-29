@@ -9,7 +9,6 @@
   and Career Goal) on the other.
 */
 
-import React from 'react';
 
 function About() {
   return (

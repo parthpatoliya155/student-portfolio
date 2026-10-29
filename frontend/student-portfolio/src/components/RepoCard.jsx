@@ -4,7 +4,6 @@
   Author: Parth Patoliya | Student Portfolio
 */
 
-import React from 'react';
 
 // Maps common programming languages to specific brand colors for badges
 const getLanguageColor = (language) => {

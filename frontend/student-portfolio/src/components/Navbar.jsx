@@ -8,7 +8,7 @@
   Also manages the mobile hamburger menu toggle state.
 */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 function Navbar({ user, onLogout }) {

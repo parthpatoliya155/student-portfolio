@@ -8,7 +8,7 @@
   and UI toggle options using the useState hook.
 */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function Contact() {
   // Controlled inputs state variables

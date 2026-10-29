@@ -7,7 +7,7 @@
   It handles optimistic UI updates, filters, search, and loading/error states.
 */
 
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense, useCallback } from 'react';
 import { getTasks, createTask, updateTask, deleteTask, generateTaskDescription } from '../services/api';
 import SearchBar from '../components/SearchBar';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -66,7 +66,7 @@ function Tasks() {
         }
         showToast("✨ AI task description generated! Review and edit as needed.", "success");
       }
-    } catch (err) {
+    } catch {
       // Graceful client fallback if server network call ever fails
       const fallbackText = `Analyze objectives for "${title.trim()}", implement core functionality, and execute test cases to verify acceptance criteria.`;
       setDescription(fallbackText);
@@ -84,7 +84,7 @@ function Tasks() {
   };
 
   // Fetch initial tasks from backend
-  const fetchTasksList = () => {
+  const fetchTasksList = useCallback(() => {
     setLoading(true);
     setError(null);
     getTasks()
@@ -104,10 +104,36 @@ function Tasks() {
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, []);
 
   useEffect(() => {
-    fetchTasksList();
+    let ignore = false;
+    getTasks()
+      .then((data) => {
+        if (!ignore) {
+          if (Array.isArray(data)) {
+            const sorted = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setTasks(sorted);
+          } else {
+            throw new Error("Invalid format received from server.");
+          }
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(err.message || "Could not retrieve tasks from database.");
+          showToast(err.message || "Failed to load tasks.", "error");
+        }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // 5. Create / Edit Task Submission Handler

@@ -8,7 +8,7 @@
   It passes appropriate data down to Header, Hero, and Skills components via React props.
 */
 
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -70,7 +70,7 @@ function App() {
     try {
       const stored = localStorage.getItem('user');
       return stored ? JSON.parse(stored) : null;
-    } catch (e) {
+    } catch {
       return null;
     }
   });

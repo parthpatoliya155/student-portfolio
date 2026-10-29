@@ -4,7 +4,7 @@
   Author: Parth Patoliya | Student Portfolio
 */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, registerUser } from '../services/api';
 import Toast from '../components/Toast';
@@ -73,7 +73,7 @@ function Auth({ onLoginSuccess }) {
         }, 1000);
       } else {
         // --- REGISTRATION FLOW ---
-        const response = await registerUser(email, password);
+        await registerUser(email, password);
         showToast("Registration successful! Please log in.", "success");
         
         // Switch to Login Tab automatically and pre-fill details

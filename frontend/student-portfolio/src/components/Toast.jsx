@@ -4,7 +4,7 @@
   Author: Parth Patoliya | Student Portfolio
 */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 function Toast({ 
   message, 

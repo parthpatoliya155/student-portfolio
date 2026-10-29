@@ -48,7 +48,7 @@ async function handleResponse(response) {
         }
         errorMessage = errorData.error || errorData.message || errorMessage;
       }
-    } catch (e) {
+    } catch {
       // JSON parsing failed, fallback to default error message
     }
     throw new Error(errorMessage);

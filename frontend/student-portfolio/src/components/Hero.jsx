@@ -8,7 +8,6 @@
   the component decoupled and reusable.
 */
 
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 // Functional component receiving name, title, and college as props

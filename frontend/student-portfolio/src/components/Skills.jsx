@@ -9,7 +9,6 @@
   reusability.
 */
 
-import React from 'react';
 
 // Functional component receiving 'skills' array as a prop
 function Skills({ skills }) {

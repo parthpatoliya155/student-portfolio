@@ -7,9 +7,7 @@
   to eliminate layout shifts (CLS: 0) and deliver an instantaneous app feel.
 */
 
-import React from 'react';
-
-function RouteFallback({ message = "Loading view...", type = "default" }) {
+function RouteFallback({ message = "Loading view..." }) {
   return (
     <div className="route-fallback-wrapper" role="status" aria-live="polite">
       {/* 1. Top Gradient Loading Bar Indicator */}

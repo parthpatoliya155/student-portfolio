@@ -4,7 +4,6 @@
   Author: Parth Patoliya | Student Portfolio
 */
 
-import React from 'react';
 
 function SearchBar({ value, onChange, placeholder = "Search repositories..." }) {
   return (

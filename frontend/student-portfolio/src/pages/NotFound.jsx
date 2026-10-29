@@ -7,7 +7,6 @@
   Includes a navigation option to return to the home route.
 */
 
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 function NotFound() {

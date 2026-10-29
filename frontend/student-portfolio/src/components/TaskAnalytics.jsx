@@ -7,7 +7,6 @@
   Dynamically loaded only when requested to demonstrate component-level code splitting.
 */
 
-import React from 'react';
 
 function TaskAnalytics({ tasks = [] }) {
   const total = tasks.length;
