@@ -1,0 +1,11 @@
+{
+  "name": "student-portfolio-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root workspace configuration for Student Portfolio & Task Manager API",
+  "scripts": {
+    "test": "npm --prefix backend/task-manager-api test",
+    "install:backend": "npm --prefix backend/task-manager-api install",
+    "install:frontend": "npm --prefix frontend/student-portfolio install"
+  }
+}

@@ -1,5 +1,7 @@
 # Parth Patoliya Practical Works Portfolio & Task Manager API
 
+[![CI Pipeline](https://github.com/parthpatoliya155/student-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/parthpatoliya155/student-portfolio/actions/workflows/ci.yml)
+
 A GitHub-ready workspace containing the Student Portfolio frontend and the Task Manager REST API backend.
 
 ## Workspace Layout
