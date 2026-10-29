@@ -147,3 +147,20 @@ export const deleteTask = (id) => {
     headers: getHeaders(false)
   }).then(handleResponse);
 };
+
+/* ==========================================================================
+   AI ASSISTANCE ENDPOINTS (Practical 13)
+   ========================================================================== */
+
+/**
+ * POST /api/ai/generate-description - Auto-generate a task description using AI
+ * @param {string} title - The task title
+ * @returns {Promise<{ description: string, fallback: boolean, source?: string }>}
+ */
+export const generateTaskDescription = (title) => {
+  return fetch(`${BASE_URL}/api/ai/generate-description`, {
+    method: 'POST',
+    headers: getHeaders(true),
+    body: JSON.stringify({ title })
+  }).then(handleResponse);
+};

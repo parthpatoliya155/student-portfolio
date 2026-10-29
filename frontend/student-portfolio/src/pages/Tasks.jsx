@@ -8,7 +8,7 @@
 */
 
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { getTasks, createTask, updateTask, deleteTask } from '../services/api';
+import { getTasks, createTask, updateTask, deleteTask, generateTaskDescription } from '../services/api';
 import SearchBar from '../components/SearchBar';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
@@ -41,6 +41,41 @@ function Tasks() {
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState('success'); // 'success' | 'error' | 'info'
   const [showAnalytics, setShowAnalytics] = useState(false); // Supplementary: Lazy-loaded analytics toggle
+
+  // 5. AI Assistant States (Practical 13: External AI Service Integration)
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiDisclaimer, setAiDisclaimer] = useState(false);
+
+  // Trigger AI Task Description Generation
+  const handleGenerateAIDescription = async () => {
+    if (!title.trim()) {
+      showToast("Please enter a task title first!", "error");
+      return;
+    }
+
+    setIsGeneratingAI(true);
+    showToast("Generating description with AI...", "info");
+
+    try {
+      const res = await generateTaskDescription(title.trim());
+      if (res && res.description) {
+        setDescription(res.description);
+        setAiDisclaimer(true);
+        if (res.suggestedPriority && !editingTask) {
+          setPriority(res.suggestedPriority);
+        }
+        if (res.fallback) {
+          showToast(res.message || "Loaded smart fallback suggestion.", "info");
+        } else {
+          showToast("AI description generated! Review and edit as needed.", "success");
+        }
+      }
+    } catch (err) {
+      showToast(`AI service notice: ${err.message || 'Offline'}. Safe fallback available.`, "error");
+    } finally {
+      setIsGeneratingAI(false);
+    }
+  };
 
   // Trigger floating toast notifications
   const showToast = (message, type = 'success') => {
@@ -336,10 +371,62 @@ function Tasks() {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="task-desc">Description</label>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                      <label htmlFor="task-desc" style={{ marginBottom: 0 }}>Description</label>
+                      <button
+                        type="button"
+                        id="btn-ai-generate"
+                        onClick={handleGenerateAIDescription}
+                        disabled={isGeneratingAI || !title.trim()}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          background: isGeneratingAI ? 'rgba(99, 102, 241, 0.2)' : 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '4px 10px',
+                          fontSize: '0.78rem',
+                          fontWeight: '600',
+                          cursor: (isGeneratingAI || !title.trim()) ? 'not-allowed' : 'pointer',
+                          opacity: !title.trim() ? 0.6 : 1,
+                          transition: 'all 0.2s ease',
+                          boxShadow: '0 2px 6px rgba(168, 85, 247, 0.25)'
+                        }}
+                        title={!title.trim() ? "Enter a task title first" : "Generate actionable description with AI"}
+                      >
+                        <span>{isGeneratingAI ? '⏳ Generating...' : '✨ Generate with AI'}</span>
+                      </button>
+                    </div>
+
+                    {aiDisclaimer && (
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '6px 10px',
+                        marginBottom: '0.5rem',
+                        borderRadius: '6px',
+                        background: 'rgba(168, 85, 247, 0.12)',
+                        border: '1px solid rgba(168, 85, 247, 0.35)',
+                        fontSize: '0.75rem',
+                        color: '#c084fc'
+                      }}>
+                        <span>🤖 <strong>AI-generated suggestion:</strong> Review and edit before saving.</span>
+                        <button
+                          type="button"
+                          onClick={() => setAiDisclaimer(false)}
+                          style={{ background: 'transparent', border: 'none', color: '#c084fc', cursor: 'pointer', padding: 0 }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    )}
+
                     <textarea
                       id="task-desc"
-                      placeholder="Add task notes/details..."
+                      placeholder="Add task notes/details or click 'Generate with AI'..."
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       rows="4"

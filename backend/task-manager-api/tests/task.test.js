@@ -66,4 +66,26 @@ describe('Task Management API — CI/CD Test Suite', () => {
         const res = await request(app).get('/trigger-error');
         expect(res.statusCode).toBe(500);
     });
+
+    // Test 5: POST /api/ai/generate-description returns 200 with fallback/AI description (Practical 13)
+    test('POST /api/ai/generate-description returns 200 with description', async () => {
+        const res = await request(app)
+            .post('/api/ai/generate-description')
+            .send({ title: 'Prepare Docker deployment documentation' });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveProperty('description');
+        expect(typeof res.body.description).toBe('string');
+        expect(res.body.description.length).toBeGreaterThan(0);
+    });
+
+    // Test 6: POST /api/ai/generate-description returns 400 when title is missing
+    test('POST /api/ai/generate-description returns 400 when title is missing', async () => {
+        const res = await request(app)
+            .post('/api/ai/generate-description')
+            .send({});
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body).toHaveProperty('error');
+    });
 });

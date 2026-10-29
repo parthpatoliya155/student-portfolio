@@ -6,6 +6,7 @@ const contentTypeChecker = require('./middleware/contentTypeChecker');
 const errorHandler = require('./middleware/errorHandler');
 const taskRoutes = require('./routes/taskRoutes');
 const authRoutes = require('./routes/authRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 const app = express();
 
@@ -30,6 +31,10 @@ app.use('/auth', authRoutes);
 
 // 6. RESTful API Routes
 app.use('/tasks', taskRoutes);
+
+// 7. External AI Service Integration Routes (Practical 13)
+app.use('/api/ai', aiRoutes);
+app.use('/ai', aiRoutes);
 
 // 6. Diagnostic error-trigger route
 app.get('/trigger-error', (req, res, next) => {
