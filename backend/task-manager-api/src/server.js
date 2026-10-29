@@ -5,6 +5,9 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const connectDB = require('./config/db');
 const app = require('./app');
 
+// Register event listeners for asynchronous background notifications
+require('./events/listeners');
+
 const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB Database

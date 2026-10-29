@@ -10,6 +10,7 @@
 
 const Task = require('../models/Task');
 const cacheService = require('../services/cacheService');
+const taskEmitter = require('../events/event');
 
 // Helper to generate consistent user-scoped cache keys
 const getTasksCacheKey = (userId) => `tasks_user_${userId}`;
@@ -71,7 +72,7 @@ exports.getTaskById = async (req, res, next) => {
     }
 };
 
-// POST /tasks - Create a new task and Invalidate Cache
+// POST /tasks - Create a new task, Invalidate Cache, and Emit Event
 exports.createTask = async (req, res, next) => {
     try {
         const { title, description, completed, priority } = req.body;
@@ -89,7 +90,19 @@ exports.createTask = async (req, res, next) => {
         // CACHE INVALIDATION: Invalidate all tasks cache for this user
         cacheService.del(getTasksCacheKey(req.user.id));
 
+        // Send the API response IMMEDIATELY (before the event handler runs)
+        const apiResponseTimestamp = new Date().toISOString();
+        console.log(`\n📤 API Response sent at: ${apiResponseTimestamp}`);
         res.status(201).json(savedTask);
+
+        // EMIT EVENT: Fire-and-forget — the listener runs asynchronously via setImmediate
+        taskEmitter.emit('task-created', {
+            taskId: savedTask._id,
+            title: savedTask.title,
+            assignedUser: req.user.id,
+            priority: savedTask.priority,
+            apiResponseTimestamp
+        });
     } catch (err) {
         next(err);
     }
