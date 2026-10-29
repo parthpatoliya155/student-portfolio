@@ -40,7 +40,9 @@ describe('Task Management API — CI/CD Test Suite', () => {
             .get('/tasks')
             .set('Authorization', `Bearer ${authToken}`);
 
-        expect(res.statusCode).toBe(200);
+        // Deliberately broken assertion for Practical 12 Step 5 demonstration:
+        // Expecting 201 Created instead of 200 OK to trigger a pipeline failure
+        expect(res.statusCode).toBe(201);
         expect(Array.isArray(res.body)).toBe(true);
         expect(res.body.length).toBe(1);
         expect(res.body[0].title).toBe('CI Pipeline Sample Task');
