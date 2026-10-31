@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 const logger = require('./middleware/logger');
 const contentTypeChecker = require('./middleware/contentTypeChecker');
 const errorHandler = require('./middleware/errorHandler');
@@ -31,6 +33,20 @@ app.use(contentTypeChecker);
 // 3. Body Parser Middleware
 app.use(express.json());
 
+// Auto-reconnect DB middleware for serverless / sleeping cloud instances
+app.use(async (req, res, next) => {
+    if (req.url.startsWith('/auth') || req.url.startsWith('/tasks')) {
+        if (mongoose.connection.readyState === 0 && process.env.MONGO_URI) {
+            try {
+                await connectDB();
+            } catch {
+                // Connection errors are caught and logged inside connectDB
+            }
+        }
+    }
+    next();
+});
+
 // 4. API & Auth Routes
 app.use('/auth', authRoutes);
 app.use('/tasks', taskRoutes);
@@ -39,10 +55,16 @@ app.use('/ai', aiRoutes);
 
 // Health check endpoint for cloud monitoring & deployment platforms (Render / Railway)
 app.get('/api/health', (req, res) => {
+    const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
     res.status(200).json({ 
         status: 'ok', 
         timestamp: new Date().toISOString(),
         service: 'Task Manager API',
+        database: {
+            status: states[mongoose.connection.readyState] || 'unknown',
+            readyState: mongoose.connection.readyState,
+            hasMongoUri: Boolean(process.env.MONGO_URI)
+        },
         uptime: process.uptime()
     });
 });

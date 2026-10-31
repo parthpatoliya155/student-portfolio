@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-    // If already connected, reuse existing database connection
+    // If already connected or connecting, reuse existing database connection
     if (mongoose.connection.readyState >= 1) {
         return mongoose.connection;
     }
@@ -20,10 +20,6 @@ const connectDB = async () => {
         return conn;
     } catch (err) {
         console.error('MongoDB connection error:', err.message);
-        // Do not crash server in production so healthchecks remain accessible
-        if (process.env.NODE_ENV !== 'production' && !process.env.RENDER) {
-            process.exit(1);
-        }
         return null;
     }
 };
