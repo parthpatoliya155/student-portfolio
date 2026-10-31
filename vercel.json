@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build:frontend",
+  "outputDirectory": "frontend/student-portfolio/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

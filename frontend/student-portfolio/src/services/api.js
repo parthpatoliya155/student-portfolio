@@ -4,7 +4,23 @@
   Author: Parth Patoliya | Student Portfolio
 */
 
-const BASE_URL = 'http://localhost:5000';
+/**
+ * Dynamically resolves the API base URL:
+ * - Uses VITE_API_URL if configured in environment variables (e.g., deployed backend)
+ * - Defaults to http://localhost:5000 during local development
+ * - Falls back to relative "" in production if deployed alongside the backend
+ */
+const getBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL.replace(/\/+$/, '');
+  }
+  if (import.meta.env.DEV) {
+    return 'http://localhost:5000';
+  }
+  return '';
+};
+
+const BASE_URL = getBaseUrl();
 
 /**
  * Dynamically constructs headers including the JWT token from localStorage.
