@@ -47,9 +47,43 @@ app.use(async (req, res, next) => {
     next();
 });
 
-// 4. API & Auth Routes
+// 4. Static Assets & Full-Stack Unified Support
+const frontendDistPath = path.resolve(__dirname, '../../../frontend/student-portfolio/dist');
+const localDistPath = path.resolve(__dirname, '../public/dist');
+const defaultPublicPath = path.join(__dirname, '../public');
+
+let staticPath = defaultPublicPath;
+if (fs.existsSync(path.join(frontendDistPath, 'index.html'))) {
+    staticPath = frontendDistPath;
+} else if (fs.existsSync(path.join(localDistPath, 'index.html'))) {
+    staticPath = localDistPath;
+}
+
+app.use(express.static(staticPath));
+
+// Also serve the legacy Practical 5 diagnostic dashboard under /diagnostics
+app.use('/diagnostics', express.static(defaultPublicPath));
+
+// 5. Browser SPA Page Navigation Middleware
+// When a browser loads a route directly (e.g. /tasks, /projects, /login) with Accept: text/html,
+// serve the React application instead of intercepting it as an API call
+app.use((req, res, next) => {
+    if (req.method === 'GET' && req.headers.accept && req.headers.accept.includes('text/html')) {
+        if (req.url.startsWith('/diagnostics')) {
+            return next();
+        }
+        const indexPath = path.join(staticPath, 'index.html');
+        if (fs.existsSync(indexPath)) {
+            return res.sendFile(indexPath);
+        }
+    }
+    next();
+});
+
+// 6. API & Auth Routes (Expects JSON / programmatic requests)
 app.use('/auth', authRoutes);
 app.use('/tasks', taskRoutes);
+app.use('/api/tasks', taskRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/ai', aiRoutes);
 
@@ -74,29 +108,11 @@ app.get('/trigger-error', (req, res, next) => {
     next(new Error("Simulated internal server error."));
 });
 
-// 5. Static Assets & Full-Stack Unified Support
-const frontendDistPath = path.resolve(__dirname, '../../../frontend/student-portfolio/dist');
-const localDistPath = path.resolve(__dirname, '../public/dist');
-const defaultPublicPath = path.join(__dirname, '../public');
-
-let staticPath = defaultPublicPath;
-if (fs.existsSync(path.join(frontendDistPath, 'index.html'))) {
-    staticPath = frontendDistPath;
-} else if (fs.existsSync(path.join(localDistPath, 'index.html'))) {
-    staticPath = localDistPath;
-}
-
-app.use(express.static(staticPath));
-
-// Also serve the legacy Practical 5 diagnostic dashboard under /diagnostics
-app.use('/diagnostics', express.static(defaultPublicPath));
-
-// 6. SPA Routing Fallback (for React Router routes like /projects, /tasks, /auth, etc.)
+// 7. SPA Routing Fallback (for any remaining unhandled GET requests)
 app.use((req, res, next) => {
     if (req.method !== 'GET') {
         return next();
     }
-    // If request is targeting API routes, delegate to 404 handler
     if (req.url.startsWith('/tasks') || req.url.startsWith('/auth') || req.url.startsWith('/api') || req.url.startsWith('/ai')) {
         return next();
     }
